@@ -2,7 +2,10 @@
     ? ($field['is_subsection'] == 1
         ? '<h3 id="subsection-' . $key . '">' . $field['label'] . '</h3>'
         : '<h4 id="subsection-' . $key . '">' . $field['label'] . '</h4>')
-    : '' !!}
+    : ($field['type'] != 'textarea'
+        ? '<strong>'.$field['label'].':</strong>'
+        : '')
+    !!}
 @if ($field['type'] == 'checkbox')
     {!! isset($data[$key])
         ? ($data[$key]
@@ -11,7 +14,6 @@
         : '' !!}
 @elseif(($field['type'] == 'multiple' || $field['type'] == 'choice') && isset($field['choices']))
     @if ($field['type'] == 'multiple' && isset($data[$key]))
-        <strong>{{ $field['label'] }}:</strong>
         @foreach ($data[$key] as $choiceKey => $answer)
             {{ isset($field['choices'][$choiceKey]) ? $field['choices'][$choiceKey] : $answer }}{{ !$loop->last ? ',' : '' }}
         @endforeach

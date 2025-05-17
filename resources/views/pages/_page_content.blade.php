@@ -105,24 +105,28 @@
                         $text['swap'] = 'Hide';
                     }
                 @endphp
-                <h2 id="section-{{ $sectionKey }}">
-                    {{ $section['name'] }}
-                    <a class="small collapse-toggle collapsed section-collapse" href="#collapse-{{ $sectionKey }}"
-                        data-toggle="collapse" data-text-swap="{{ $text['swap'] }}"
-                        data-text-original="{{ $text['original'] }}">{{ $text['original'] }}</a></h3>
-                </h2>
-                <div class="collapse {{ $length < 3000 ? 'show' : '' }}" id="collapse-{{ $sectionKey }}">
-                    @if (isset($page->category->template['fields'][$sectionKey]))
-                        @foreach ($page->category->template['fields'][$sectionKey] as $fieldKey => $field)
-                            {!! $field['type'] != 'textarea' ? '<p>' : '' !!}
-                            @include('pages.content_builder._body_builder', [
-                                'key' => $fieldKey,
-                                'field' => $field,
-                            ])
-                            {!! $field['type'] != 'textarea' ? '</p>' : '' !!}
-                        @endforeach
-                    @endif
-                </div>
+                @if ($length > 0)
+                    <h2 id="section-{{ $sectionKey }}">
+                        {{ $section['name'] }}
+                        <a class="small collapse-toggle collapsed section-collapse" href="#collapse-{{ $sectionKey }}"
+                            data-toggle="collapse" data-text-swap="{{ $text['swap'] }}"
+                            data-text-original="{{ $text['original'] }}">{{ $text['original'] }}</a></h3>
+                    </h2>
+                    <div class="collapse {{ $length < 3000 ? 'show' : '' }}" id="collapse-{{ $sectionKey }}">
+                        @if (isset($page->category->template['fields'][$sectionKey]))
+                            @foreach ($page->category->template['fields'][$sectionKey] as $fieldKey => $field)
+                                @if (isset($data[$fieldKey]) && strlen($data[$fieldKey]) > 0)
+                                    {!! $field['type'] != 'textarea' ? '<p>' : '' !!}
+                                    @include('pages.content_builder._body_builder', [
+                                        'key' => $fieldKey,
+                                        'field' => $field,
+                                    ])
+                                    {!! $field['type'] != 'textarea' ? '</p>' : '' !!}
+                                @endif
+                            @endforeach
+                        @endif
+                    </div>
+                @endif
             @endforeach
         @endif
     </div>
