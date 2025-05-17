@@ -22,6 +22,7 @@
 
         <!-- INTRO -->
         {!! isset($data['description']) ? $data['description'] : '' !!}
+        <hr />
 
         @if (isset($page->category->subject['segments']['general properties']) &&
                 View::exists('pages.content_builder._' . $page->category->subject['key'] . '_general'))
@@ -30,17 +31,10 @@
 
         <!-- AUTO-TOC -->
         @if (isset($page->category->template['sections']) && count($page->category->template['sections']) >= 3)
-            <div class="card mb-2" style="width: 25vh;">
+            <div class="card mb-2 float-left mr-3 col-12 col-md-4 col-lg-3">
                 <div class="card-body">
-                    <div class="row">
-                        <div class="my-auto col mobile-hide">
-                            <hr />
-                        </div>
                         <h5 class="text-center col-lg-auto mx-2 my-auto">Contents</h5>
-                        <div class="my-auto col mobile-hide">
-                            <hr />
-                        </div>
-                    </div>
+                        <hr />
                     @foreach ($page->category->template['sections'] as $sectionKey => $section)
                         {{ $loop->iteration }}. <a href="#section-{{ $sectionKey }}">{{ $section['name'] }}</a><br />
                         @if (isset($page->category->template['fields'][$sectionKey]))
@@ -126,6 +120,7 @@
                             @endforeach
                         @endif
                     </div>
+                    <hr />
                 @endif
             @endforeach
         @endif
